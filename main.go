@@ -3,13 +3,15 @@ package RybakovMymathDz8
 import (
 	"fmt"
 	"math"
+	"math/big"
 )
 
-func FuctorialFunc(n uint) uint {
-	if n == 0 {
-		return 1
+func FactorialBig(n uint) *big.Int {
+	result := big.NewInt(1)
+	for i := uint(1); i <= n; i++ {
+		result.Mul(result, big.NewInt(int64(i)))
 	}
-	return n * FuctorialFunc(n-1)
+	return result
 }
 
 /*
@@ -72,6 +74,9 @@ func LnLimitations(a, b float64) (float64, float64, error) {
 
 // Степень с произвольными покащателями
 func RootDegree(n, m float64) (float64, error) {
+	if n == 0 && m == 0 {
+		return 0, fmt.Errorf("Неопределенность")
+	}
 	return (n / m), nil
 }
 
@@ -81,4 +86,10 @@ func RoundIfClose(x float64) float64 {
 		return result
 	}
 	return x
+}
+
+func help() {
+	fmt.Println("В этом блоке будет приведена информация об использовании функций, о их ограничениях из пакета RybakovMymathDz8.")
+	fmt.Println()
+	fmt.Println("FuctorialFunc(n) - вычисляет факториал для больших чисел (включая 1000), входное число должно быть > 0:,\nRTailorDegree(a,b) - возводит a в степень b через exp(b*ln(a)), нельзя 0^0 и 0 в отрицательной степени, так как получится неопределенность\nFuncRTailorDegree(a,n,m) - вычисляет a^(n/m), нельзя n и m приравнивать к 0, нельзя a приравнивать к 0, когда степень = 0, степень не должна быть отрицательна, когда a = 0, так как во всех случаях будет неопределенность. m не может быть четным, когда a < 0\nLnLimitations(a,b) - проверяет условия для логарифма log_b(a) (a>0, b>0 и ≠1),\nRootDegree(n,m) - возвращает дробь n/m,\nRoundIfClose(x) - округляет числа ближе чем на 0.001 к целым")
 }
